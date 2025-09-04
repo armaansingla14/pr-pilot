@@ -1,6 +1,6 @@
 # PR Pilot
 
-Video Link
+Video Link:
 https://youtu.be/LS-mIn2PFcI?si=9bIOkEUSE3OdAiUS
 
 PR Pilot is a full-stack project that predicts the **risk level of pull requests** before merge.
