@@ -1,8 +1,9 @@
-from sqlalchemy import create_engine, Column, Integer, Float, Text
-from sqlalchemy.orm import declarative_base, sessionmaker
-from typing import Any
 import json
 import os
+from typing import Any
+
+from sqlalchemy import Column, Float, Integer, Text, create_engine
+from sqlalchemy.orm import declarative_base, sessionmaker
 
 DB_URL = os.environ.get("DB_URL", "sqlite:///pr_pilot.db")
 

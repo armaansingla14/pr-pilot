@@ -1,6 +1,6 @@
-from typing import List, Dict
 
-def review_hints(diff_text: str, feats: Dict[str, float]) -> List[str]:
+
+def review_hints(diff_text: str, feats: dict[str, float]) -> list[str]:
     # If OPENAI_API_KEY is present, you could plug in an LLM call here.
     # To keep the template dependency-light, we'll return heuristic hints.
     hints = []

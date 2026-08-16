@@ -1,7 +1,6 @@
-import re
 import math
+import re
 from collections import Counter
-from typing import Dict
 
 KEYWORDS = re.compile(r"\b(if|for|while|catch|try|case|when|switch|await|async|yield|throw)\b")
 SECRET_PATTERNS = [
@@ -17,12 +16,12 @@ def shannon_entropy(s: str) -> float:
     total = len(s)
     return -sum((c/total) * math.log2(c/total) for c in counts.values())
 
-def extract_features(diff_text: str) -> Dict[str, float]:
+def extract_features(diff_text: str) -> dict[str, float]:
     lines = diff_text.splitlines()
     added = sum(1 for line in lines if line.startswith('+') and not line.startswith('+++'))
     removed = sum(1 for line in lines if line.startswith('-') and not line.startswith('---'))
-    files_changed = sum(1 for line in lines if line.startswith('+++ b/') or line.startswith('--- a/'))
-    code_lines = [line[1:] for line in lines if (line.startswith('+') or line.startswith('-')) and not line.startswith('+++') and not line.startswith('---')]
+    files_changed = sum(1 for line in lines if line.startswith(('+++ b/', '--- a/')))
+    code_lines = [line[1:] for line in lines if line.startswith(('+', '-')) and not line.startswith(('+++', '---'))]
     code_blob = "\n".join(code_lines)
 
     keyword_hits = len(KEYWORDS.findall(code_blob))
@@ -38,7 +37,7 @@ def extract_features(diff_text: str) -> Dict[str, float]:
         secret_hits += len(pat.findall(diff_text))
 
     # path entropy: diverse touched paths often correlates with wider blast radius
-    path_lines = [line for line in lines if line.startswith('+++ b/') or line.startswith('--- a/')]
+    path_lines = [line for line in lines if line.startswith(('+++ b/', '--- a/'))]
     path_str = "|".join(path_lines)
     path_entropy = shannon_entropy(path_str)
 
@@ -59,6 +58,6 @@ def extract_features(diff_text: str) -> Dict[str, float]:
     }
     return feats
 
-def summarize_features(feats: Dict[str, float]) -> list[str]:
+def summarize_features(feats: dict[str, float]) -> list[str]:
     items = sorted(feats.items(), key=lambda kv: abs(kv[1]), reverse=True)
     return [f"{k}={v:.2f}" for k,v in items[:5]]
