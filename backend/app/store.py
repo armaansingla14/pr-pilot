@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine, Column, Integer, Float, Text
 from sqlalchemy.orm import declarative_base, sessionmaker
+from typing import Any
 import json
 import os
 
@@ -7,7 +8,7 @@ DB_URL = os.environ.get("DB_URL", "sqlite:///pr_pilot.db")
 
 engine = create_engine(DB_URL)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
-Base = declarative_base()
+Base: Any = declarative_base()
 
 class Analysis(Base):
     __tablename__ = "analyses"
