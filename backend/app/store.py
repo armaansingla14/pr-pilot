@@ -1,6 +1,7 @@
-from sqlalchemy import create_engine, Column, Integer, String, Float, Text
+from sqlalchemy import create_engine, Column, Integer, Float, Text
 from sqlalchemy.orm import declarative_base, sessionmaker
-import json, os
+import json
+import os
 
 DB_URL = os.environ.get("DB_URL", "sqlite:///pr_pilot.db")
 

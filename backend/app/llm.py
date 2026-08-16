@@ -1,4 +1,3 @@
-import os
 from typing import List, Dict
 
 def review_hints(diff_text: str, feats: Dict[str, float]) -> List[str]:

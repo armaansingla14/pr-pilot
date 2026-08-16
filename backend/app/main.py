@@ -5,7 +5,7 @@ from .feature_engineering import extract_features, summarize_features
 from .llm import review_hints
 from .store import init_db, save_analysis, list_analyses
 from pathlib import Path
-import joblib, os, json
+import joblib
 
 app = FastAPI(title="PR Pilot API", version="0.1.0")
 
@@ -44,7 +44,7 @@ def analyze(req: AnalyzeRequest):
     if not req.diff_text and not req.pr_url:
         raise HTTPException(status_code=400, detail="Provide diff_text or pr_url")
 
-    diff_text = req.diff_text or f""  # PR URL ingestion would fetch the diff
+    diff_text = req.diff_text or ""  # PR URL ingestion would fetch the diff
 
     feats = extract_features(diff_text)
     feature_vec = [feats[k] for k in sorted(feats.keys())]
